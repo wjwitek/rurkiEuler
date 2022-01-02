@@ -57,13 +57,13 @@ class EulerSolver:
         plt.savefig(file_path)
         plt.close()
 
-    def step(self, a=0, b=1):
+    def step(self, a=0, b=1, step_divisor = 10):
         """
         Make step smaller, repeat calculating y(x) and redraw plot.
         :param a: start of interval (inclusive)
         :param b: end of interval (inclusive)
         """
-        self.h /= 10
+        self.h /= step_divisor
         self.explicit_euler_method(a, b)
         self.plot(get_plots_path() + "current_plot.png")
 

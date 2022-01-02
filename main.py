@@ -56,6 +56,13 @@ class ParametersScreen(GridLayout):
         interval_end_input_box.add_widget(self.interval_end)
         self.add_widget(interval_end_input_box)
 
+        step_divisor_input_box = BoxLayout(orientation='horizontal')
+        step_divisor_input_box.add_widget(Label(text='Divide step size by: '))
+        self.step_divisor = TextInput(multiline=False)
+        self.step_divisor.text = "3"
+        step_divisor_input_box.add_widget(self.step_divisor)
+        self.add_widget(step_divisor_input_box)
+
         self.start_button = Button(text="go!", size_hint_y=0.5)
         self.start_button.bind(on_press=self.start)
         self.add_widget(self.start_button)
@@ -80,7 +87,7 @@ class ParametersScreen(GridLayout):
 
     def next_step(self, instance):
         print("in next_step", instance)
-        self.eulerSolver.step(int(self.interval_start.text), int(self.interval_end.text))
+        self.eulerSolver.step(int(self.interval_start.text), int(self.interval_end.text), eval(self.step_divisor.text))
         self.plot_image.reload()
 
     def get_derivative(self):
