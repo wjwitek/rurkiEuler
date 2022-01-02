@@ -73,9 +73,9 @@ class ParametersScreen(GridLayout):
         self.cols = 1
 
         self.eulerSolver = EulerSolver(lambda x, y: eval(self.derivative.text),
-                                       int(self.initial_condition.text),
+                                       eval(self.initial_condition.text),
                                        lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)))
-        self.eulerSolver.explicit_euler_method(int(self.interval_start.text), int(self.interval_end.text))
+        self.eulerSolver.explicit_euler_method(eval(self.interval_start.text), eval(self.interval_end.text))
 
         self.eulerSolver.plot(get_plots_path() + "current_plot.png")
         self.plot_image = Image(source=get_plots_path() + "current_plot.png")
@@ -87,7 +87,7 @@ class ParametersScreen(GridLayout):
 
     def next_step(self, instance):
         print("in next_step", instance)
-        self.eulerSolver.step(int(self.interval_start.text), int(self.interval_end.text), eval(self.step_divisor.text))
+        self.eulerSolver.step(eval(self.interval_start.text), eval(self.interval_end.text), eval(self.step_divisor.text))
         self.plot_image.reload()
 
     def get_derivative(self):
