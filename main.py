@@ -87,13 +87,23 @@ class ParametersScreen(GridLayout):
         self.plot_image = Image(source=get_plots_path() + "current_plot.png")
         self.add_widget(self.plot_image)
 
-        self.start_button = Button(text="step brother!", size_hint_y=0.1)
-        self.start_button.bind(on_press=self.next_step)
-        self.add_widget(self.start_button)
+        button_box = BoxLayout(orientation="horizontal", size_hint_y=0.1)
+        step_button = Button(text="step brother!")
+        step_button.bind(on_press=self.next_step)
+        button_box.add_widget(step_button)
+        get_data_to_file_button = Button(text="Get data to a file")
+        get_data_to_file_button.bind(on_press=self.save_to_a_file)
+        button_box.add_widget(get_data_to_file_button)
+        self.add_widget(button_box)
+
+    def save_to_a_file(self, instance):
+        print("saving to a file")
+        self.eulerSolver.save_state("EulerMethod.csv")
 
     def next_step(self, instance):
         print("in next_step", instance)
-        self.eulerSolver.step(eval(self.interval_start.text), eval(self.interval_end.text), eval(self.step_divisor.text))
+        self.eulerSolver.step(eval(self.interval_start.text), eval(self.interval_end.text),
+                              eval(self.step_divisor.text))
         self.plot_image.reload()
 
     def get_derivative(self):
