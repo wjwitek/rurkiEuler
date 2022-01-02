@@ -26,14 +26,12 @@ class ParametersScreen(GridLayout):
         equation_input_box.add_widget(self.derivative)
         self.add_widget(equation_input_box)
 
-
         initial_condition_input_box = BoxLayout(orientation='horizontal')
         initial_condition_input_box.add_widget(Label(text="Enter initial condition y(0) = "))
         self.initial_condition = TextInput(multiline=False)
         self.initial_condition.text = "1"
         initial_condition_input_box.add_widget(self.initial_condition)
         self.add_widget(initial_condition_input_box)
-
 
         solution_input_box = BoxLayout(orientation='horizontal')
         solution_input_box.add_widget(Label(text='Enter solution y(x) ='))
@@ -56,6 +54,13 @@ class ParametersScreen(GridLayout):
         interval_end_input_box.add_widget(self.interval_end)
         self.add_widget(interval_end_input_box)
 
+        step_size_input_box = BoxLayout(orientation='horizontal')
+        step_size_input_box.add_widget(Label(text='Initial step size: '))
+        self.step_size = TextInput(multiline=False)
+        self.step_size.text = "0.2"
+        step_size_input_box.add_widget(self.step_size)
+        self.add_widget(step_size_input_box)
+
         step_divisor_input_box = BoxLayout(orientation='horizontal')
         step_divisor_input_box.add_widget(Label(text='Divide step size by: '))
         self.step_divisor = TextInput(multiline=False)
@@ -74,7 +79,8 @@ class ParametersScreen(GridLayout):
 
         self.eulerSolver = EulerSolver(lambda x, y: eval(self.derivative.text),
                                        eval(self.initial_condition.text),
-                                       lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)))
+                                       lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)),
+                                       eval(self.step_size.text))
         self.eulerSolver.explicit_euler_method(eval(self.interval_start.text), eval(self.interval_end.text))
 
         self.eulerSolver.plot(get_plots_path() + "current_plot.png")
@@ -97,8 +103,6 @@ class ParametersScreen(GridLayout):
 class MyApp(App):
 
     def build(self):
-        ParametersScreen()
-
         return ParametersScreen()
 
 
