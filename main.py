@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
@@ -16,35 +17,46 @@ class ParametersScreen(GridLayout):
 
     def __init__(self, **kwargs):
         super(ParametersScreen, self).__init__(**kwargs)
-        self.cols = 2
-        self.add_widget(Label(text="Enter differential equation y'(x) = "))
+        self.cols = 1
+
+        equation_input_box = BoxLayout(orientation='horizontal')
+        equation_input_box.add_widget(Label(text="Enter differential equation y'(x) = "))
         self.derivative = TextInput(multiline=False)
         self.derivative.text = "2*y/x"
-        self.add_widget(self.derivative)
+        equation_input_box.add_widget(self.derivative)
+        self.add_widget(equation_input_box)
 
-        self.add_widget(Label(text="Enter differential equation y'(x) = "))
+        diff_equation_input_box = BoxLayout(orientation='horizontal')
+        diff_equation_input_box.add_widget(Label(text="Enter differential equation y'(x) = "))
         self.initial_condition = TextInput(multiline=False)
         self.initial_condition.text = "1"
-        self.add_widget(self.initial_condition)
+        diff_equation_input_box.add_widget(self.initial_condition)
+        self.add_widget(diff_equation_input_box)
 
-        self.add_widget(Label(text='Enter solution y(x) ='))
+        solution_input_box = BoxLayout(orientation='horizontal')
+        solution_input_box.add_widget(Label(text='Enter solution y(x) ='))
         self.solution = TextInput(multiline=False)
         self.solution.text = "x**2"
-        self.add_widget(self.solution)
+        solution_input_box.add_widget(self.solution)
+        self.add_widget(solution_input_box)
 
-        self.add_widget(Label(text='Enter the start of the interval: '))
+        interval_start_input_box = BoxLayout(orientation='horizontal')
+        interval_start_input_box.add_widget(Label(text='Enter the start of the interval: '))
         self.interval_start = TextInput(multiline=False)
         self.interval_start.text = "1"
-        self.add_widget(self.interval_start)
+        interval_start_input_box.add_widget(self.interval_start)
+        self.add_widget(interval_start_input_box)
 
-        self.add_widget(Label(text='Enter the end of the interval: '))
+        interval_end_input_box = BoxLayout(orientation='horizontal')
+        interval_end_input_box.add_widget(Label(text='Enter the end of the interval: '))
         self.interval_end = TextInput(multiline=False)
         self.interval_end.text = "2"
-        self.add_widget(self.interval_end)
+        interval_end_input_box.add_widget(self.interval_end)
+        self.add_widget(interval_end_input_box)
 
-        self.step_button = Button(text="go!")
-        self.step_button.bind(on_press=self.start)
-        self.add_widget(self.step_button)
+        self.start_button = Button(text="go!", size_hint_y=0.5)
+        self.start_button.bind(on_press=self.start)
+        self.add_widget(self.start_button)
 
     def start(self, instance):
         print("yes", instance)
@@ -56,13 +68,13 @@ class ParametersScreen(GridLayout):
                                        lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)))
         self.eulerSolver.explicit_euler_method(int(self.interval_start.text), int(self.interval_end.text))
 
-        self.eulerSolver.plot(get_plots_path()+"current_plot.png")
-        self.plot_image = Image(source=get_plots_path()+"current_plot.png")
+        self.eulerSolver.plot(get_plots_path() + "current_plot.png")
+        self.plot_image = Image(source=get_plots_path() + "current_plot.png")
         self.add_widget(self.plot_image)
-        
-        self.step_button = Button(text="step brother!", size_hint_y=0.1)
-        self.step_button.bind(on_press=self.next_step)
-        self.add_widget(self.step_button)
+
+        self.start_button = Button(text="step brother!", size_hint_y=0.1)
+        self.start_button.bind(on_press=self.next_step)
+        self.add_widget(self.start_button)
 
     def next_step(self, instance):
         print("in next_step", instance)
