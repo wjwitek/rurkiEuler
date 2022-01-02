@@ -7,6 +7,8 @@ from kivy.uix.image import Image
 
 from EulerSolver import EulerSolver, get_plots_path
 
+from math import *
+
 
 class ParametersScreen(GridLayout):
 
@@ -18,10 +20,29 @@ class ParametersScreen(GridLayout):
         self.cols = 2
         self.add_widget(Label(text="Enter differential equation y'(x) = "))
         self.derivative = TextInput(multiline=False)
+        self.derivative.text = "2*y/x"
         self.add_widget(self.derivative)
-        self.add_widget(Label(text='enter solved equation'))
-        self.password = TextInput(password=True, multiline=False)
-        self.add_widget(self.password)
+
+        self.add_widget(Label(text="Enter differential equation y'(x) = "))
+        self.initial_condition = TextInput(multiline=False)
+        self.initial_condition.text = "1"
+        self.add_widget(self.initial_condition)
+
+        self.add_widget(Label(text='Enter solution y(x) ='))
+        self.solution = TextInput(multiline=False)
+        self.solution.text = "x**2"
+        self.add_widget(self.solution)
+
+        self.add_widget(Label(text='Enter the start of the interval: '))
+        self.interval_start = TextInput(multiline=False)
+        self.interval_start.text = "1"
+        self.add_widget(self.interval_start)
+
+        self.add_widget(Label(text='Enter the end of the interval: '))
+        self.interval_end = TextInput(multiline=False)
+        self.interval_end.text = "2"
+        self.add_widget(self.interval_end)
+
         self.step_button = Button(text="go!")
         self.step_button.bind(on_press=self.start)
         self.add_widget(self.step_button)
@@ -30,16 +51,10 @@ class ParametersScreen(GridLayout):
         print("yes", instance)
         self.clear_widgets()
 
-
-        derivative = "2*y/x"  # input("Enter differential equation y'(x) = ")
-        initial_condition = 1  # int(input("Enter initial condition y(0) = "))
-        solution = "x**2"  # input("Enter solution y(x) = ")
-        self.a = 1
-        self.b = 2
-
-        self.eulerSolver = EulerSolver(lambda x, y: eval(derivative), initial_condition,
-                                  lambda list_x: list(map(lambda x: eval(solution), list_x)))
-        self.eulerSolver.explicit_euler_method(self.a, self.b)
+        self.eulerSolver = EulerSolver(lambda x, y: eval(self.derivative.text),
+                                       int(self.initial_condition.text),
+                                       lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)))
+        self.eulerSolver.explicit_euler_method(int(self.interval_start.text), int(self.interval_end.text))
         self.eulerSolver.plot(get_plots_path()+"current_plot.png")
         self.plot_image = Image(source=get_plots_path()+"current_plot.png")
         self.add_widget(self.plot_image)
@@ -49,7 +64,7 @@ class ParametersScreen(GridLayout):
 
     def next_step(self, instance):
         print("in next_step", instance)
-        self.eulerSolver.step(self.a, self.b)
+        self.eulerSolver.step(int(self.interval_start.text), int(self.interval_end.text))
         self.plot_image.reload()
 
     def get_derivative(self):
