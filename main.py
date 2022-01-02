@@ -11,7 +11,6 @@ from math import *
 
 
 class ParametersScreen(GridLayout):
-
     plot_image: Image
     eulerSolver: EulerSolver
 
@@ -50,15 +49,18 @@ class ParametersScreen(GridLayout):
     def start(self, instance):
         print("yes", instance)
         self.clear_widgets()
+        self.cols = 1
 
         self.eulerSolver = EulerSolver(lambda x, y: eval(self.derivative.text),
                                        int(self.initial_condition.text),
                                        lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)))
         self.eulerSolver.explicit_euler_method(int(self.interval_start.text), int(self.interval_end.text))
+
         self.eulerSolver.plot(get_plots_path()+"current_plot.png")
         self.plot_image = Image(source=get_plots_path()+"current_plot.png")
         self.add_widget(self.plot_image)
-        self.step_button = Button(text="step brother!")
+        
+        self.step_button = Button(text="step brother!", size_hint_y=0.1)
         self.step_button.bind(on_press=self.next_step)
         self.add_widget(self.step_button)
 
