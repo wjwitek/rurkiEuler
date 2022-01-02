@@ -26,13 +26,6 @@ class ParametersScreen(GridLayout):
         equation_input_box.add_widget(self.derivative)
         self.add_widget(equation_input_box)
 
-        initial_condition_input_box = BoxLayout(orientation='horizontal')
-        initial_condition_input_box.add_widget(Label(text="Enter initial condition y(0) = "))
-        self.initial_condition = TextInput(multiline=False)
-        self.initial_condition.text = "1"
-        initial_condition_input_box.add_widget(self.initial_condition)
-        self.add_widget(initial_condition_input_box)
-
         solution_input_box = BoxLayout(orientation='horizontal')
         solution_input_box.add_widget(Label(text='Enter solution y(x) ='))
         self.solution = TextInput(multiline=False)
@@ -77,9 +70,11 @@ class ParametersScreen(GridLayout):
         self.clear_widgets()
         self.cols = 1
 
+        solution_function = lambda x: eval(self.solution.text)
+
         self.eulerSolver = EulerSolver(lambda x, y: eval(self.derivative.text),
-                                       eval(self.initial_condition.text),
-                                       lambda list_x: list(map(lambda x: eval(self.solution.text), list_x)),
+                                       solution_function(eval(self.interval_start.text)),
+                                       lambda list_x: list(map(solution_function, list_x)),
                                        eval(self.step_size.text))
         self.eulerSolver.explicit_euler_method(eval(self.interval_start.text), eval(self.interval_end.text))
 
