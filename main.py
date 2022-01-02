@@ -26,12 +26,14 @@ class ParametersScreen(GridLayout):
         equation_input_box.add_widget(self.derivative)
         self.add_widget(equation_input_box)
 
-        diff_equation_input_box = BoxLayout(orientation='horizontal')
-        diff_equation_input_box.add_widget(Label(text="Enter differential equation y'(x) = "))
+
+        initial_condition_input_box = BoxLayout(orientation='horizontal')
+        initial_condition_input_box.add_widget(Label(text="Enter initial condition y(0) = "))
         self.initial_condition = TextInput(multiline=False)
         self.initial_condition.text = "1"
-        diff_equation_input_box.add_widget(self.initial_condition)
-        self.add_widget(diff_equation_input_box)
+        initial_condition_input_box.add_widget(self.initial_condition)
+        self.add_widget(initial_condition_input_box)
+
 
         solution_input_box = BoxLayout(orientation='horizontal')
         solution_input_box.add_widget(Label(text='Enter solution y(x) ='))
