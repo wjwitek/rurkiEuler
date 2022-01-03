@@ -140,7 +140,7 @@ class ParametersScreen(GridLayout):
 
     def save_to_a_file(self, instance):
         print("saving to a file")
-        self.eulerSolver.save_state(self.filename_textbox.text + ".csv")
+        self.eulerSolver.save_state("..\\"+self.filename_textbox.text + ".csv")
 
     def get_information_box(self):
         root_box = GridLayout(size_hint_y=0.2)

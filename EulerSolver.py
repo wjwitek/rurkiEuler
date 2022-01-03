@@ -2,13 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import platform
+from pathlib import Path
 
 
 def get_plots_path():
-    if "Windows" in platform.system():
-        return "plots\\"
-    else:
-        return "plots/"
+    filename = "..\\plots\\" if ("Windows" in platform.system()) else "../plots/"
+    Path(filename).mkdir(parents=True, exist_ok=True)
+    return filename
 
 
 """
