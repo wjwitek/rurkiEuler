@@ -20,6 +20,7 @@ class ParametersScreen(GridLayout):
         self.cols = 1
 
         self.step_label = Label()
+        self.message_label = Label(color=[1.0, 0.0, 0.0, 1.0], size_hint_y=0.420)
 
         equation_input_box = BoxLayout(orientation='horizontal')
         equation_input_box.add_widget(
@@ -64,6 +65,8 @@ class ParametersScreen(GridLayout):
         step_divisor_input_box.add_widget(self.step_divisor)
         self.add_widget(step_divisor_input_box)
 
+        self.add_widget(self.message_label)
+
         self.start_button = Button(text="go!", size_hint_y=0.5)
         self.start_button.bind(on_press=self.start)
         self.add_widget(self.start_button)
@@ -73,7 +76,29 @@ class ParametersScreen(GridLayout):
                          foreground_color=[1.0, 1.0, 1.0, 1.0])
 
     def start(self, instance):
-        print("yes", instance)
+        valid, exception = self.validate_input()
+        if valid:
+            self.show_plot_screen()
+        else:
+            self.message_label.text = "invalid input: " + str(exception)
+
+    def validate_input(self):
+        try:
+            float(eval(self.interval_start.text))
+            float(eval(self.interval_end.text))
+            float(eval(self.step_size.text))
+            float(eval(self.step_divisor.text))
+
+            x = float(self.interval_start.text)
+            eval(self.solution.text)
+            y = float(eval(self.solution.text))
+            eval(self.derivative.text)
+        except Exception as e:
+            print("invalid input", e)
+            return False, e
+        return True, ""
+
+    def show_plot_screen(self):
         self.clear_widgets()
         self.cols = 1
 
