@@ -58,7 +58,7 @@ class ParametersScreen(GridLayout):
         self.add_widget(step_size_input_box)
 
         step_divisor_input_box = BoxLayout(orientation='horizontal')
-        step_divisor_input_box.add_widget(Label(text='Divide step size by: '))
+        step_divisor_input_box.add_widget(Label(text='Every iteration divide step size by: '))
         self.step_divisor = self.create_dark_text_in_field()
         self.step_divisor.text = "3"
         step_divisor_input_box.add_widget(self.step_divisor)
@@ -94,7 +94,7 @@ class ParametersScreen(GridLayout):
         buttons_box = BoxLayout(orientation="horizontal", size_hint_y=0.1)
 
         step_button_box = BoxLayout(orientation="horizontal")
-        step_button = Button(text="step brother!")
+        step_button = Button(text="Next iteration! (Divide step by " + self.step_divisor.text + ")")
         step_button.bind(on_press=self.next_step)
         step_button_box.add_widget(step_button)
 
