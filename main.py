@@ -22,43 +22,44 @@ class ParametersScreen(GridLayout):
         self.step_label = Label()
 
         equation_input_box = BoxLayout(orientation='horizontal')
-        equation_input_box.add_widget(Label(text="Enter differential equation y'(x) = "))
-        self.derivative = TextInput(multiline=False)
+        equation_input_box.add_widget(
+            Label(text="Enter differential equation y'(x) = "))
+        self.derivative = self.create_dark_text_in_field()
         self.derivative.text = "2*y/x"
         equation_input_box.add_widget(self.derivative)
         self.add_widget(equation_input_box)
 
         solution_input_box = BoxLayout(orientation='horizontal')
         solution_input_box.add_widget(Label(text='Enter solution y(x) ='))
-        self.solution = TextInput(multiline=False)
+        self.solution = self.create_dark_text_in_field()
         self.solution.text = "x**2"
         solution_input_box.add_widget(self.solution)
         self.add_widget(solution_input_box)
 
         interval_start_input_box = BoxLayout(orientation='horizontal')
         interval_start_input_box.add_widget(Label(text='Enter the start of the interval: '))
-        self.interval_start = TextInput(multiline=False)
+        self.interval_start = self.create_dark_text_in_field()
         self.interval_start.text = "1"
         interval_start_input_box.add_widget(self.interval_start)
         self.add_widget(interval_start_input_box)
 
         interval_end_input_box = BoxLayout(orientation='horizontal')
         interval_end_input_box.add_widget(Label(text='Enter the end of the interval: '))
-        self.interval_end = TextInput(multiline=False)
+        self.interval_end = self.create_dark_text_in_field()
         self.interval_end.text = "2"
         interval_end_input_box.add_widget(self.interval_end)
         self.add_widget(interval_end_input_box)
 
         step_size_input_box = BoxLayout(orientation='horizontal')
         step_size_input_box.add_widget(Label(text='Initial step size: '))
-        self.step_size = TextInput(multiline=False)
+        self.step_size = self.create_dark_text_in_field()
         self.step_size.text = "0.2"
         step_size_input_box.add_widget(self.step_size)
         self.add_widget(step_size_input_box)
 
         step_divisor_input_box = BoxLayout(orientation='horizontal')
         step_divisor_input_box.add_widget(Label(text='Divide step size by: '))
-        self.step_divisor = TextInput(multiline=False)
+        self.step_divisor = self.create_dark_text_in_field()
         self.step_divisor.text = "3"
         step_divisor_input_box.add_widget(self.step_divisor)
         self.add_widget(step_divisor_input_box)
@@ -66,6 +67,10 @@ class ParametersScreen(GridLayout):
         self.start_button = Button(text="go!", size_hint_y=0.5)
         self.start_button.bind(on_press=self.start)
         self.add_widget(self.start_button)
+
+    def create_dark_text_in_field(self):
+        return TextInput(multiline=False, background_color=[1.0, 1.0, 1.0, 0.3],
+                         foreground_color=[1.0, 1.0, 1.0, 1.0])
 
     def start(self, instance):
         print("yes", instance)
@@ -86,14 +91,27 @@ class ParametersScreen(GridLayout):
 
         self.add_widget(self.get_information_box())
 
-        button_box = BoxLayout(orientation="horizontal", size_hint_y=0.1)
+        buttons_box = BoxLayout(orientation="horizontal", size_hint_y=0.1)
+
+        step_button_box = BoxLayout(orientation="horizontal")
         step_button = Button(text="step brother!")
         step_button.bind(on_press=self.next_step)
-        button_box.add_widget(step_button)
+        step_button_box.add_widget(step_button)
+
+        filesave_box = BoxLayout(orientation="vertical")
         get_data_to_file_button = Button(text="Get data to a file")
         get_data_to_file_button.bind(on_press=self.save_to_a_file)
-        button_box.add_widget(get_data_to_file_button)
-        self.add_widget(button_box)
+        filesave_box.add_widget(get_data_to_file_button)
+
+        filename_box = BoxLayout(orientation="horizontal")
+        filename_box.add_widget(Label(text="filename:", size_hint_x=0.2137))
+        filename_box.add_widget(TextInput(multiline=False))
+        filesave_box.add_widget(filename_box)
+
+        buttons_box.add_widget(step_button_box)
+        buttons_box.add_widget(filesave_box)
+
+        self.add_widget(buttons_box)
 
     def save_to_a_file(self, instance):
         print("saving to a file")
