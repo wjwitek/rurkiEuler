@@ -87,6 +87,6 @@ class EulerSolver:
             for i in range(len(self.y)):
                 row = [round(self.x[i], 2), round(self.y[i], 2)]
                 if self.exact_solution is not None:
-                    row.append(round(self.exact_solution(self.x[i]), 2))
+                    row.append(round(self.exact_solution(self.x)[i], 2))
                 # write a row to the csv file
                 writer.writerow(row)

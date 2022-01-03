@@ -19,6 +19,8 @@ class ParametersScreen(GridLayout):
         super(ParametersScreen, self).__init__(**kwargs)
         self.cols = 1
 
+        self.step_label = Label()
+
         equation_input_box = BoxLayout(orientation='horizontal')
         equation_input_box.add_widget(Label(text="Enter differential equation y'(x) = "))
         self.derivative = TextInput(multiline=False)
@@ -82,6 +84,8 @@ class ParametersScreen(GridLayout):
         self.plot_image = Image(source=get_plots_path() + "current_plot.png")
         self.add_widget(self.plot_image)
 
+        self.add_widget(self.get_information_box())
+
         button_box = BoxLayout(orientation="horizontal", size_hint_y=0.1)
         step_button = Button(text="step brother!")
         step_button.bind(on_press=self.next_step)
@@ -95,11 +99,32 @@ class ParametersScreen(GridLayout):
         print("saving to a file")
         self.eulerSolver.save_state("EulerMethod.csv")
 
+    def get_information_box(self):
+        root_box = GridLayout(size_hint_y=0.2)
+        root_box.cols = 2
+
+        oed_box = BoxLayout(orientation="horizontal")
+        oed_box.add_widget(Label(text="Equation:   " + "y'(x) = " + self.derivative.text))
+        root_box.add_widget(oed_box)
+
+        solution_box = BoxLayout(orientation="horizontal")
+        solution_box.add_widget(Label(text="Solution:   " + "y(x) = " + self.solution.text))
+        root_box.add_widget(solution_box)
+
+        current_step_box = BoxLayout(orientation="horizontal")
+        current_step_box.add_widget(Label(text="Current step size: "))
+        self.step_label.text = str(self.eulerSolver.h)
+        current_step_box.add_widget(self.step_label)
+        root_box.add_widget(current_step_box)
+
+        return root_box
+
     def next_step(self, instance):
         print("in next_step", instance)
         self.eulerSolver.step(eval(self.interval_start.text), eval(self.interval_end.text),
                               eval(self.step_divisor.text))
         self.plot_image.reload()
+        self.step_label.text = str(self.eulerSolver.h)
 
     def get_derivative(self):
         return self.derivative
