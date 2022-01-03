@@ -46,12 +46,12 @@ class EulerSolver:
         """
         plt.style.use('seaborn-poster')
         plt.figure(figsize=(12, 8))
-        plt.plot(self.x, self.y, 'bo--', label='Przybliżone')
+        plt.plot(self.x, self.y, 'bo--', label='Estimated')
         if self.exact_solution is not None:
-            plt.plot(self.x, self.exact_solution(self.x), 'g', label='Dokładne')
-        plt.title('Dokładne i przybliżone rozwiązania')
+            plt.plot(self.x, self.exact_solution(self.x), 'g', label='Exact')
+        plt.title('Exact and estimated solutions')
         plt.xlabel('x')
-        plt.ylabel('f(x)')
+        plt.ylabel('y(x)')
         plt.grid()
         plt.legend(loc='lower right')
         plt.savefig(file_path)
