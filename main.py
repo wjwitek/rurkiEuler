@@ -8,8 +8,6 @@ from kivy.uix.image import Image
 
 from EulerSolver import EulerSolver, get_plots_path
 
-from math import *
-
 
 class ParametersScreen(GridLayout):
     plot_image: Image
@@ -116,7 +114,7 @@ class ParametersScreen(GridLayout):
 
         self.add_widget(self.get_information_box())
 
-        buttons_box = BoxLayout(orientation="horizontal", size_hint_y=0.1)
+        buttons_box = BoxLayout(orientation="horizontal", size_hint_y=0.15)
 
         step_button_box = BoxLayout(orientation="horizontal")
         step_button = Button(text="Next iteration! (Divide step by " + self.step_divisor.text + ")")
@@ -130,7 +128,9 @@ class ParametersScreen(GridLayout):
 
         filename_box = BoxLayout(orientation="horizontal")
         filename_box.add_widget(Label(text="filename:", size_hint_x=0.2137))
-        filename_box.add_widget(TextInput(multiline=False))
+        self.filename_textbox = TextInput(multiline=False)
+        self.filename_textbox.text = "EulerMethod"
+        filename_box.add_widget(self.filename_textbox)
         filesave_box.add_widget(filename_box)
 
         buttons_box.add_widget(step_button_box)
@@ -140,7 +140,7 @@ class ParametersScreen(GridLayout):
 
     def save_to_a_file(self, instance):
         print("saving to a file")
-        self.eulerSolver.save_state("EulerMethod.csv")
+        self.eulerSolver.save_state(self.filename_textbox.text + ".csv")
 
     def get_information_box(self):
         root_box = GridLayout(size_hint_y=0.2)
